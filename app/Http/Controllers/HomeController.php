@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -11,18 +12,27 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//    }
 
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        if (Auth::check()) {
+            return view('home', [
+                'route' => '登录后跳转'
+            ]);
+        }
+        else
+            return view('home',[
+                //反正登不登录首页都一样,就返回一样的route了
+                'route'=>'登录后跳转',
+                ]);
     }
 }

@@ -8,12 +8,20 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>MariaSeal</title>
 
     <!-- Styles -->
+
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{url('/')}}/css/site.min.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="{{url("/")}}/js/Parser.js"></script>
 </head>
-<body>
+<body style="background: white">
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
@@ -29,22 +37,37 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        MariaSeal'pub
                     </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        &nbsp;<li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                博文 <span class="caret"></span>
+                            </a>
+                            @inject('typeServices','App\Services\TypeService')
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href={{url('/article/list')}}>全部</a>
+                                </li>
+                                @foreach( $typeServices->selectTypeList() as $type)
+                                    <li>
+                                        <a href={{url('/type/'.$type->id)}}>{{$type->content}}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a href="{{ route('login') }}">登录</a></li>
+                            <li><a href="{{ route('register') }}">注册</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
@@ -53,10 +76,19 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
+                                    @if( Auth::user()->id ==1)
+                                        <a href="{{url('/admin')}}" style="">管理</a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+
+                                    @endif
+                                    </li>
+                                    <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
+                                            登出
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -75,6 +107,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    {{--<script src="{{ asset('js/app.js') }}"></script>--}}
 </body>
 </html>

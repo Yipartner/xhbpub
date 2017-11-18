@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Services\TypeService;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,6 +13,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
+
     public function boot()
     {
         //
