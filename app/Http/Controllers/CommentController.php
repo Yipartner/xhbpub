@@ -21,6 +21,7 @@ class CommentController extends Controller
         ];
         $this->validate($request,$rule);
         $this->commentService->addComment($request);
+        return back();
     }
     public function delComment($comment_id)
     {
