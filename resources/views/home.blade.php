@@ -154,7 +154,6 @@
                                 {{--下面这个textarea如果不写在一行里就会导致输入框自带一堆烦人的空格--}}
                                 <input type="hidden" name="article_id" value={{ $article->id }}>
                                 <input type="hidden" name="user_id" value={{ Auth::user()->id }}>
-                                <input type="hidden" name="user_id" value=-1>
                                 <textarea  class="form-control" rows="6" name="postContent" value="postContent" id="text_editor" oninput="update()"></textarea>
                                 <br>
                                 <button type="submit" class="btn btn-default">添加评论</button>
