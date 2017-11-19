@@ -146,6 +146,7 @@
                     <h1>{{$article->title}}</h1>
                     <div>
                         {!! $article->content !!}
+                        @if(Auth::check())
                         <div class= id="add_new_form" >
                             <form action="{{url('/post/addcomment')}}" method="post">
                                 {!! csrf_field() !!}
@@ -153,32 +154,43 @@
                                 {{--下面这个textarea如果不写在一行里就会导致输入框自带一堆烦人的空格--}}
                                 <input type="hidden" name="article_id" value={{ $article->id }}>
                                 <input type="hidden" name="user_id" value={{ Auth::user()->id }}>
+                                <input type="hidden" name="user_id" value=-1>
                                 <textarea  class="form-control" rows="6" name="postContent" value="postContent" id="text_editor" oninput="update()"></textarea>
                                 <br>
                                 <button type="submit" class="btn btn-default">添加评论</button>
                             </form>
                         </div>
-
+                        @else
+                            <div class="panel-body">
+                                <p>登录后进行评论</p>
+                                <hr>
+                            </div>
+                        @endif
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             评论
                         </div>
                         <?php  $X=0; ?>
+                        <div class="container">
                         @foreach($article->comments as $comment)
+
                             <h4>{{'用户 '.$comment->user_name.' '}}评论:</h4>
                             <div class="container">
                             <h5>{{$comment->content}}</h5>
-                                @if(Auth::user()->id==1||$comment->user_id==Auth::user()->id)
-                                <form action="{{url('/comment/'.$comment->id)}}" method="POST" style="float: right">
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <button type="submit">删除</button>
-                                </form>
+                                @if(Auth::check())
+                                    @if(Auth::user()->id==1||$comment->user_id==Auth::user()->id)
+                                    <form action="{{url('/comment/'.$comment->id)}}" method="POST" style="float: right">
+                                      <input type="hidden" name="_method" value="DELETE">
+                                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                      <button type="submit">删除</button>
+                                    </form>
+                                    @endif
                                 @endif
                             </div>
                            <?php $X++; ?>
                         @endforeach
+                        </div>
                         @if($X==0)
                             <div class="panel-body">
                                 <p>还没有评论</p>
