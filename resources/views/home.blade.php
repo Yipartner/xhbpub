@@ -101,8 +101,7 @@
                         }
                     </script>
                 @elseif($route=='登录后跳转')
-                    <div class="header" style="background-image: url(http://p1.bqimg.com/567571/36610bce391f91a4.jpg)">
-                    <div class="container">
+                    <div class="header" style="background-image: url(http://of1deuret.bkt.clouddn.com/17-11-21/69568559.jpg);margin:-20px;height:800px">                    <div class="conptainer">
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="logotxt"><h1><a href={{url('/')}}>MariaSeal's Pub</a></h1></div>
