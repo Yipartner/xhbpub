@@ -23,7 +23,7 @@
                             </select>
                             <h3>内容</h3>
                             {{--下面这个textarea如果不写在一行里就会导致输入框自带一堆烦人的空格--}}
-                            <textarea  class="form-control" rows="10" name="postContent" value="postContent" id="text_editor" oninput="update()"></textarea>
+                            <textarea class="form-control" rows="10" name="postContent" value="postContent" id="text_editor" oninput="update()"></textarea>
                             <br>
                             <button type="submit" class="btn btn-default">提交</button>
 
@@ -264,5 +264,18 @@
         {{--</div>--}}
     </div>
 </div>
-
+<script>
+$("textarea").on('keydown',function(e){
+    if(e.keyCode == 9){
+        e.preventDefault();
+        var indent = '    ';
+        var start = this.selectionStart;
+        var end = this.selectionEnd;
+        var selected = window.getSelection().toString();
+        selected = indent + selected.replace(/\n/g,'\n'+indent);
+        this.value = this.value.substring(0,start) + selected + this.value.substring(end);
+        this.setSelectionRange(start+indent.length,start+selected.length);
+    }
+})
+</script>
 @endsection
